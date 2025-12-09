@@ -1,0 +1,27 @@
+global:
+  scrape_interval: 5s
+
+scrape_configs:
+  - job_name: gateway
+    metrics_path: /metrics
+    static_configs:
+      - targets:
+          - gateway:8000
+
+  - job_name: saga_orchestrator
+    metrics_path: /metrics
+    static_configs:
+      - targets:
+          - saga_orchestrator:9101
+
+  - job_name: notification_worker
+    metrics_path: /metrics
+    static_configs:
+      - targets:
+          - notification_worker:9102
+
+  - job_name: rabbitmq
+    metrics_path: /metrics
+    static_configs:
+      - targets:
+          - rabbitmq:15692

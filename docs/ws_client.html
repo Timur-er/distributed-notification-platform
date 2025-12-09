@@ -1,0 +1,35 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Notification WebSocket Demo</title>
+    <style>
+      body { font-family: sans-serif; max-width: 640px; margin: 32px auto; }
+      #log { border: 1px solid #ccc; padding: 12px; min-height: 200px; }
+    </style>
+  </head>
+  <body>
+    <h2>WebSocket Demo</h2>
+    <label>User ID: <input id="userId" value="1" /></label>
+    <button id="connect">Connect</button>
+    <div id="status"></div>
+    <h3>Messages</h3>
+    <div id="log"></div>
+    <script>
+      const status = document.getElementById("status");
+      const log = document.getElementById("log");
+      let socket;
+      document.getElementById("connect").onclick = () => {
+        const id = document.getElementById("userId").value;
+        socket = new WebSocket(`ws://localhost:8000/ws/${id}`);
+        socket.onopen = () => (status.textContent = "connected");
+        socket.onmessage = (evt) => {
+          const p = document.createElement("div");
+          p.textContent = evt.data;
+          log.prepend(p);
+        };
+        socket.onclose = () => (status.textContent = "closed");
+      };
+    </script>
+  </body>
+</html>
